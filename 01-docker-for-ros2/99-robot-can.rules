@@ -1,0 +1,16 @@
+# /etc/udev/rules.d/99-robot-can.rules
+#
+# Give USB-CAN adapters stable names so code can open /dev/can_follower_l
+# instead of guessing whether it came up as /dev/ttyACM0 or /dev/ttyACM1.
+#
+# Find the values for your adapter with:
+#   udevadm info -a -n /dev/ttyACM0 | grep -E 'idVendor|idProduct|serial'
+#
+# Apply without rebooting:
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# Left follower arm
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="LEFT_SERIAL_HERE",  SYMLINK+="can_follower_l", MODE="0666"
+
+# Right follower arm
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="606f", ATTRS{serial}=="RIGHT_SERIAL_HERE", SYMLINK+="can_follower_r", MODE="0666"

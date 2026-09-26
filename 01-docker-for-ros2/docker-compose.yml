@@ -1,0 +1,35 @@
+# Two containers that pass camera frames through shared memory.
+#
+#   docker compose up
+#
+# `camera` owns the IPC namespace; `policy` joins it with `ipc: service:camera`.
+# That's the least-exposed way to share memory between two containers. Swap both
+# for `ipc: host` if a process on the host (or another stack) also needs access.
+services:
+  camera:
+    image: python:3.11-slim
+    network_mode: host           # --network host  (DDS discovery)
+    ipc: shareable               # let other containers join this IPC namespace
+    volumes:
+      - /dev:/dev                # -v /dev:/dev    (see /dev/video*, /dev/can_*)
+      - ./demos:/demos
+    privileged: true             # --privileged    (USB access, RT scheduling)
+    command: python /demos/02_shared_memory_frames.py camera
+
+  policy:
+    image: python:3.11-slim
+    network_mode: host
+    ipc: service:camera          # share camera's /dev/shm -> zero-copy frames
+    volumes:
+      - ./demos:/demos
+    depends_on:
+      - camera
+    command: python /demos/02_shared_memory_frames.py policy
+    # --gpus all equivalent (needs the NVIDIA Container Toolkit). Uncomment on a GPU box:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
