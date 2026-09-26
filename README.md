@@ -8,6 +8,7 @@ folder with a `README.md` explaining the concept and some simple code to poke at
 | # | Folder | What it covers |
 |---|--------|----------------|
 | 01 | [`01-docker-for-ros2`](01-docker-for-ros2/) | The `docker run` flags a real robot container needs (`--network host`, `--ipc host`, `--gpus all`, `-v /dev:/dev`, `--privileged`) and why |
+| 02 | [`02-ros2-cli-introspection`](02-ros2-cli-introspection/) | Debugging a running ROS 2 system with `ros2 topic list/hz/echo`, `ros2 node info`, `ros2 doctor`; QoS and domain-ID exercises |
 
 ## Adding a topic
 
