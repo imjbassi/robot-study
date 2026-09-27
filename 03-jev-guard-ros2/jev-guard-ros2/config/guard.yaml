@@ -1,0 +1,35 @@
+jev_guard:
+  ros__parameters:
+    tick_hz: 10.0
+    sample_hz: 50.0
+    window_s: 1.5
+    max_result_age_s: 0.3
+
+    use_mock: false
+    mock_latency_ms: 80.0
+    jev.base_url: "https://api.typesafe.ai"
+    jev.model: "jev-latest"
+    jev.timeout_s: 0.25
+
+    # Example: Franka Emika Panda. Replace with your arm's joints and limits.
+    arm_joint_names: [panda_joint1, panda_joint2, panda_joint3, panda_joint4, panda_joint5, panda_joint6, panda_joint7]
+    joint_lower_limits: [-2.8973, -1.7628, -2.8973, -3.0718, -2.8973, -0.0175, -2.8973]
+    joint_upper_limits: [2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973]
+    gripper_joint_name: panda_finger_joint1
+    gripper_width_scale: 2.0
+    object_class_id: "target"
+
+    # Decision thresholds
+    anomaly_estop_prob: 0.85
+    urgency_estop: 4.0
+    urgency_handover: 4.0
+    grasp_handover_below: 2.0
+    handover_confirm_ticks: 2
+
+    # Local hard limits (evaluated without the network)
+    max_ee_force_n: 60.0
+    min_joint_limit_margin_rad: 0.03
+    max_telemetry_age_s: 0.25
+
+    max_consecutive_jev_failures: 3
+    handover_on_jev_loss: true

@@ -1,0 +1,4 @@
+# Runtime: the node itself only needs ROS 2 (rclpy + message packages) and the
+# Python standard library. These are for tests and the benchmark.
+pytest>=7
+openai>=1.40      # optional: only for the OpenAI baseline in tests/test_latency.py
